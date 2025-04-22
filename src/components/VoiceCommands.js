@@ -39,13 +39,21 @@ const VoiceCommands = () => {
 
   // takes the script taken between 'honey' and 'please' 
   // and executes the command.
-  useEffect(() => {
-    commands.forEach(({ command, callback }) => {
-      if (script.toLowerCase().includes(command)) {
-        callback();
+    useEffect(() => {
+      let matched = false;
+      commands.forEach(({ command, callback }) => {
+        if (script.toLowerCase().includes(command)) {
+          callback();
+          speak(`Okay, I have executed the command: ${command}`);
+          matched = true;
+        }
+      });
+    
+      if (!matched && script) {
+        speak("Sorry, I didn't recognize that command.");
       }
-    });
-  }, [script]);
+    }, [script]);
+  
 
   // effect hook to handle typing in text editor
   useEffect(() => {
@@ -74,6 +82,24 @@ const VoiceCommands = () => {
     return <span>Browser doesn't support speech recognition.</span>;
   }
 
+  // Speak back using Web Speech API
+  const speak = (message) => {
+    const utterance = new SpeechSynthesisUtterance(message);
+    speechSynthesis.speak(utterance);
+  };
+
+  const toggleListening = () => {
+    setIsListening(prevState => {
+      const newState = !prevState;
+      speak(newState ? "Listening activated." : "Listening paused.");
+      return newState;
+    });
+  };
+  
+
+
+
+
   // render the voice commands container
   return (
     <div className='voice-cont'>
@@ -82,7 +108,7 @@ const VoiceCommands = () => {
         <Transcript transcript={script || 'Say something...'}/>
       
       {/* button to toggle listening state */}
-      <button onClick={() => setIsListening(prevState => !prevState)} className='mic-icon'>
+      <button onClick={toggleListening} className='mic-icon'>
         {isListening ?
           <OnIcon fontSize='large' /> : 
           <OffIcon fontSize='large' />}
