@@ -405,3 +405,25 @@ div:has(> .ProseMirror) {
 .add-icon:hover {
   background-color: var(--beige-2);
 }
+
+
+
+@media (max-width: 1200px) {
+  .editor-cont {
+    max-width: 90%; /* Reduce max-width on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .editor-cont {
+    max-width: 80%; /* Further reduce max-width on smaller screens */
+    padding: 10px; /* Reduce padding on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .editor-cont {
+    max-width: 100%; /* Full-width on very small screens */
+    padding: 5px;  /* Smaller padding on very small screens */
+  }
+}

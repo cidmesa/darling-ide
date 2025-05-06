@@ -96,10 +96,6 @@ const VoiceCommands = () => {
     });
   };
   
-
-
-
-
   // render the voice commands container
   return (
     <div className='voice-cont'>
